@@ -9,6 +9,7 @@ import io.th0rgal.oraxen.api.events.OraxenNoteBlockPlaceEvent;
 import io.th0rgal.oraxen.mechanics.MechanicFactory;
 import io.th0rgal.oraxen.mechanics.provided.gameplay.noteblock.directional.DirectionalBlock;
 import io.th0rgal.oraxen.utils.BlockHelpers;
+import io.th0rgal.oraxen.utils.SchedulerUtils;
 import io.th0rgal.oraxen.utils.Utils;
 import io.th0rgal.oraxen.utils.breaker.BreakerSystem;
 import io.th0rgal.oraxen.utils.breaker.HardnessModifier;
@@ -121,7 +122,7 @@ public class NoteBlockMechanicListener implements Listener {
         if (!GameEvent.values().contains(GameEvent.getByKey(eventKey))) return;
         if (block.getType() != Material.NOTE_BLOCK || event.getEvent() != GameEvent.getByKey(eventKey)) return;
         NoteBlock data = (NoteBlock) block.getBlockData().clone();
-        Bukkit.getScheduler().runTaskLater(OraxenPlugin.get(), () -> block.setBlockData(data, false), 1L);
+        SchedulerUtils.executeDelayed(OraxenPlugin.get(), () -> block.setBlockData(data, false), 1L);
     }
 
     public void updateAndCheck(final Location loc) {

@@ -12,6 +12,7 @@ import io.th0rgal.oraxen.OraxenPlugin;
 import io.th0rgal.oraxen.api.OraxenBlocks;
 import io.th0rgal.oraxen.config.Settings;
 import io.th0rgal.oraxen.mechanics.Mechanic;
+import io.th0rgal.oraxen.utils.SchedulerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -51,7 +52,7 @@ public class WorldEditHandlers {
                     }
                 } else {
                     if (world == null) return super.setBlock(pos, block);
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(OraxenPlugin.get(), () -> OraxenBlocks.remove(loc, null));
+                    SchedulerUtils.execute(OraxenPlugin.get(), () -> OraxenBlocks.remove(loc, null));
                 }
 
                 return getExtent().setBlock(pos, block);

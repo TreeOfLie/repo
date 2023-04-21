@@ -58,7 +58,7 @@ dependencies {
     compileOnly("commons-io:commons-io:2.11.0")
     compileOnly("com.ticxo.modelengine:api:R3.1.5")
     compileOnly(files("libs/compile/BSP.jar"))
-    compileOnly("dev.jorel:commandapi-shade:8.8.0")
+    //compileOnly("dev.jorel:commandapi-shade:8.8.0")
     compileOnly("io.lumine:MythicLib:1.1.6")
     compileOnly("net.Indyuce:MMOItems:6.7.3")
     compileOnly("org.joml:joml:1.10.5") // Because pre 1.19.4 api does not have this in the server-jar
@@ -73,6 +73,7 @@ dependencies {
     implementation("com.jeff_media:CustomBlockData:2.2.0")
     implementation("com.jeff_media:MorePersistentDataTypes:2.4.0")
     implementation("gs.mclo:java:2.2.1")
+    implementation(files("libs/compile/CommandAPI-8.9.0.jar"))
     implementation("com.ticxo.playeranimator:PlayerAnimator:R1.2.5")
     implementation("org.jetbrains:annotations:24.0.1") { isTransitive = false }
     implementation("me.gabytm.util:actions-spigot:$actionsVersion") { exclude(group = "com.google.guava") }
@@ -98,7 +99,7 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.19.3")
+        minecraftVersion("1.19.4")
     }
 
     shadowJar {
@@ -114,7 +115,7 @@ tasks {
         relocate("org.jetbrains.annotations", "io.th0rgal.oraxen.shaded.jetbrains.annotations")
         relocate("com.udojava.evalex", "io.th0rgal.oraxen.shaded.evalex")
         relocate("com.ticxo.playeranimator", "io.th0rgal.oraxen.shaded.playeranimator")
-        //relocate("org.joml", "io.th0rgal.oraxen.shaded.joml")
+        relocate("dev.jorel.commandapi", "io.th0rgal.oraxen.shaded.commandapi")
 
         //mapOf("dir" to "libs/compile", "include" to listOf("*.jar"))
         manifest {
@@ -148,7 +149,7 @@ bukkit {
     softDepend = listOf("LightAPI", "PlaceholderAPI", "MythicMobs", "MMOItems", "MythicCrucible", "BossShopPro", "CrateReloaded", "ItemBridge", "WorldEdit", "WorldGuard", "Towny", "Factions", "Lands", "PlotSquared", "NBTAPI", "ModelEngine", "CrashClaim")
     depend = listOf("ProtocolLib")
     loadBefore = listOf("Realistic_World")
-    libraries = listOf("org.springframework:spring-expression:6.0.6", "org.apache.httpcomponents:httpmime:4.5.13", "dev.jorel:commandapi-shade:8.8.0", "org.joml:joml:1.10.5")
+    libraries = listOf("org.springframework:spring-expression:6.0.6", "org.apache.httpcomponents:httpmime:4.5.13"/*, "dev.jorel:commandapi-shade:8.8.0"*/, "org.joml:joml:1.10.5")
     permissions.create("oraxen.command") {
         description = "Allows the player to use the /oraxen command"
         default = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.Permission.Default.TRUE

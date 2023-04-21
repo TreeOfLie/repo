@@ -24,7 +24,6 @@ import org.bukkit.event.world.GenericGameEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import static io.th0rgal.oraxen.utils.BlockHelpers.isLoaded;
