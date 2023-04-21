@@ -12,6 +12,7 @@ import io.th0rgal.oraxen.pack.receive.PackReceiver;
 import io.th0rgal.oraxen.pack.upload.hosts.HostingProvider;
 import io.th0rgal.oraxen.pack.upload.hosts.Polymath;
 import io.th0rgal.oraxen.utils.AdventureUtils;
+import io.th0rgal.oraxen.utils.SchedulerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -61,7 +62,7 @@ public class UploadManager {
 
         final long time = System.currentTimeMillis();
         Message.PACK_UPLOADING.log();
-        Bukkit.getScheduler().runTaskAsynchronously(OraxenPlugin.get(), () -> {
+        SchedulerUtils.executeAsync(() -> {
             if (!hostingProvider.uploadPack(resourcePack.getFile())) {
                 Message.PACK_NOT_UPLOADED.log();
                 return;
@@ -93,7 +94,8 @@ public class UploadManager {
                     packSender.unregister();
                 }
             }
-        });
+        }, OraxenPlugin.get());
+        //Bukkit.getScheduler().runTaskAsynchronously(OraxenPlugin.get(), );
     }
 
     private HostingProvider createHostingProvider() {
