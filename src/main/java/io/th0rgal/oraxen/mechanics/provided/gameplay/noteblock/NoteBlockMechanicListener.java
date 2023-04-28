@@ -165,6 +165,7 @@ public class NoteBlockMechanicListener implements Listener {
         Block block = event.getBlock();
         NoteBlockMechanic mechanic = event.getMechanic();
         if (mechanic == null) return;
+        if (!ProtectionLib.canInteract(player, block.getLocation())) return;
 
         if (!player.isSneaking()) {
             if (mechanic.hasClickActions()) {

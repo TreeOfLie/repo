@@ -314,6 +314,7 @@ public class FurnitureListener implements Listener {
         Entity baseEntity = event.getRightClicked();
         final Player player = event.getPlayer();
 
+        if (!ProtectionLib.canInteract(player, baseEntity.getLocation())) return;
         FurnitureMechanic mechanic = OraxenFurniture.getFurnitureMechanic(baseEntity);
         if (mechanic == null) return;
         // Swap baseEntity to the baseEntity if interacted with entity is Interaction type
@@ -332,10 +333,10 @@ public class FurnitureListener implements Listener {
         if (mechanic.isStorage()) {
             StorageMechanic storage = mechanic.getStorage();
             switch (storage.getStorageType()) {
-                case STORAGE: case SHULKER: storage.openStorage(baseEntity, player);
-                case PERSONAL: storage.openPersonalStorage(player, baseEntity.getLocation(), baseEntity);
-                case DISPOSAL: storage.openDisposal(player, baseEntity.getLocation(), baseEntity);
-                case ENDERCHEST: player.openInventory(player.getEnderChest());
+                case STORAGE, SHULKER -> storage.openStorage(baseEntity, player);
+                case PERSONAL -> storage.openPersonalStorage(player, baseEntity.getLocation(), baseEntity);
+                case DISPOSAL -> storage.openDisposal(player, baseEntity.getLocation(), baseEntity);
+                case ENDERCHEST -> player.openInventory(player.getEnderChest());
             }
             event.setCancelled(true);
         }
@@ -366,6 +367,7 @@ public class FurnitureListener implements Listener {
         final Player player = event.getPlayer();
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND) return;
         if (block == null || block.getType() != Material.BARRIER || player.isSneaking()) return;
+        if (!ProtectionLib.canInteract(player, block.getLocation())) return;
 
         final FurnitureMechanic mechanic = OraxenFurniture.getFurnitureMechanic(block);
         if (mechanic == null) return;
@@ -381,10 +383,10 @@ public class FurnitureListener implements Listener {
         if (mechanic.isStorage()) {
             StorageMechanic storage = mechanic.getStorage();
             switch (storage.getStorageType()) {
-                case STORAGE: case SHULKER: storage.openStorage(baseEntity, player);
-                case PERSONAL: storage.openPersonalStorage(player, baseEntity.getLocation(), baseEntity);
-                case DISPOSAL: storage.openDisposal(player, baseEntity.getLocation(), baseEntity);
-                case ENDERCHEST: player.openInventory(player.getEnderChest());
+                case STORAGE, SHULKER -> storage.openStorage(baseEntity, player);
+                case PERSONAL -> storage.openPersonalStorage(player, baseEntity.getLocation(), baseEntity);
+                case DISPOSAL -> storage.openDisposal(player, baseEntity.getLocation(), baseEntity);
+                case ENDERCHEST -> player.openInventory(player.getEnderChest());
             }
         }
 
