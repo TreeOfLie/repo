@@ -14,7 +14,6 @@ import io.th0rgal.oraxen.utils.BlockHelpers;
 import io.th0rgal.oraxen.utils.breaker.BreakerSystem;
 import io.th0rgal.oraxen.utils.breaker.HardnessModifier;
 import io.th0rgal.oraxen.utils.limitedplacing.LimitedPlacing;
-import io.th0rgal.oraxen.utils.logs.Logs;
 import io.th0rgal.protectionlib.ProtectionLib;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -260,11 +259,7 @@ public class StringBlockMechanicListener implements Listener {
             if (face == BlockFace.SELF && !face.isCartesian()) continue;
             if (block.getType() == Material.TRIPWIRE || block.getType() == Material.NOTE_BLOCK) break;
             if (block.getRelative(face).getType() == Material.TRIPWIRE) {
-                if (player.getGameMode() != GameMode.CREATIVE)
-                    for (ItemStack item : block.getDrops())
-                        if (item.getType() != Material.AIR)
-                            player.getWorld().dropItemNaturally(block.getLocation(), item);
-                block.setType(Material.AIR, true);
+                block.breakNaturally(player.getInventory().getItemInMainHand());
                 if (BlockHelpers.REPLACEABLE_BLOCKS.contains(blockAbove.getType())) blockAbove.breakNaturally();
                 Bukkit.getScheduler().runTaskLater(OraxenPlugin.get(), Runnable ->
                         fixClientsideUpdate(block.getLocation()), 1);
@@ -438,7 +433,6 @@ public class StringBlockMechanicListener implements Listener {
         Block blockAbove = target.getRelative(BlockFace.UP);
         if (mechanic.isTall()) {
             if (!BlockHelpers.REPLACEABLE_BLOCKS.contains(blockAbove.getType())) {
-                Logs.debug(blockAbove.getType());
                 blockPlaceEvent.setCancelled(true);
                 oraxenBlockPlaceEvent.setCancelled(true);
             }
@@ -449,7 +443,6 @@ public class StringBlockMechanicListener implements Listener {
             blockPlaceEvent.setCancelled(true);
 
         if (!blockPlaceEvent.canBuild() || blockPlaceEvent.isCancelled() || oraxenBlockPlaceEvent.isCancelled()) {
-            Logs.debug("BlockPlaceEvent cancelled");
             target.setBlockData(curentBlockData, false); // false to cancel physic
             return null;
         }
